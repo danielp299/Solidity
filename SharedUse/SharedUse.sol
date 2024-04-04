@@ -2,6 +2,7 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
+//Add this contract to your project to allow shared use of your NFTs
 contract SharedUse
 {
     mapping(uint256 => address) private UserOf;
@@ -10,8 +11,6 @@ contract SharedUse
 
 
     event UserAndBeneficiary( uint256 indexed _id, address indexed _newUser,address indexed _newBeneficiary);
-
-
 
     function setUserAndBeneficiary( uint256 _id, address _newUser,address _newBeneficiary, uint8 _days) external{
         require(_setUserAndBeneficiary(_id,_newUser,_newBeneficiary ,_days),"cant shared use");
@@ -39,8 +38,6 @@ contract SharedUse
             _endUse = type(uint256).max;
         }
     }
-
-    function ownerOf(uint256 _id) public virtual view returns(address){
-
-    }
+    //must be override by erc721 contract 
+    function ownerOf(uint256 _id) public virtual view returns(address){}
 }
