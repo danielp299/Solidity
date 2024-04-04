@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.7.0 <0.9.0;
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.9/contracts/token/ERC721/ERC721.sol";
 
 //Add this contract to your project to allow shared use of your NFTs
-contract SharedUse
+abstract contract SharedUse is ERC721
 {
     mapping(uint256 => address) private UserOf;
     mapping(uint256 => uint256) private EndUse;
@@ -18,7 +19,7 @@ contract SharedUse
     }
     
     function _setUserAndBeneficiary( uint256 _id, address _newUser,address _newBeneficiary, uint8 _days) internal returns(bool) {
-        require(ownerOf(_id) == msg.sender,"must be owner");
+        require(ERC721.ownerOf(_id) == msg.sender,"must be owner");
         
         UserOf[_id] = _newUser;
         BeneficiaryOf[_id] = _newBeneficiary;
@@ -33,11 +34,9 @@ contract SharedUse
             _beneficiary = BeneficiaryOf[_id];
             _endUse = EndUse[_id];
         }else{
-            _beneficiary = ownerOf(_id);
-            _user = ownerOf(_id);
+            _beneficiary = ERC721.ownerOf(_id);
+            _user = ERC721.ownerOf(_id);
             _endUse = type(uint256).max;
         }
     }
-    //must be override by erc721 contract 
-    function ownerOf(uint256 _id) public virtual view returns(address){}
 }
