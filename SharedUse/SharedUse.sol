@@ -27,7 +27,7 @@ abstract contract SharedUse is ERC721
         return true;
     }
     
-    function userOf(uint256 _id) external virtual view returns(address _user, address _beneficiary, uint256 _endUse ){
+    function userOf(uint256 _id) public virtual view returns(address _user, address _beneficiary, uint256 _endUse ){
         
         if(EndUse[_id] > block.timestamp){
             _user = UserOf[_id];
